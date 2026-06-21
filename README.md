@@ -1,0 +1,154 @@
+# Brain Combo
+
+Brain Combo is a global Codex skill that uses GitNexus and Graphify together as a practical codebase second brain.
+
+It keeps the two tools separate and lets them coexist:
+
+- GitNexus handles code intelligence: symbols, callers, callees, execution flows, refactor impact, and change blast radius.
+- Graphify handles broad project memory: docs, specs, schemas, architecture reports, visual graphs, and cross-file concepts.
+- Raw source files remain the final authority before changing behavior.
+
+## Why This Exists
+
+The base idea came from comparing an installed GitNexus workflow with `safishamsi/graphify`.
+
+GitNexus was already useful for impact-aware coding inside a repo, but its value is strongest around source symbols and execution flows. Graphify overlaps as a graph-based project memory tool, but it reaches wider: reports, visual maps, docs, schemas, and non-code artifacts. Brain Combo exists because those strengths fit together better than they replace each other.
+
+This repo packages that combined workflow as one Codex skill named `brain-combo`, so future Codex sessions can orient quickly before editing a codebase.
+
+## Version Baseline
+
+Brain Combo was created and verified with:
+
+| Tool | Version used while creating Brain Combo | Notes |
+| --- | --- | --- |
+| GitNexus CLI | `1.5.3` | Local installed CLI used for behavior checks |
+| GitNexus npm latest | `1.6.8` | Registry version checked on June 21, 2026 |
+| Graphify CLI | `0.8.44` | Verified with `uvx --from graphifyy graphify --version` |
+
+Use your installed local versions for day-to-day behavior. Treat the table as the creation baseline, not a permanent compatibility ceiling.
+
+## Install For Codex
+
+### Option 1: Automatic
+
+```bash
+git clone <this-repo-url> brain-combo
+cd brain-combo
+./install.sh
+```
+
+The installer copies the skill to:
+
+```text
+${CODEX_HOME:-$HOME/.codex}/skills/brain-combo
+```
+
+Restart Codex after installing so the new global skill appears in future sessions.
+
+### Option 2: Manual
+
+```bash
+git clone <this-repo-url> brain-combo
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R brain-combo/skill/brain-combo "${CODEX_HOME:-$HOME/.codex}/skills/brain-combo"
+chmod +x "${CODEX_HOME:-$HOME/.codex}/skills/brain-combo/scripts/check-codebase-memory.sh"
+```
+
+Verify the skill file exists:
+
+```bash
+test -f "${CODEX_HOME:-$HOME/.codex}/skills/brain-combo/SKILL.md" && echo "brain-combo installed"
+```
+
+## Optional Tool Setup
+
+Brain Combo can still help as instructions without both tools installed, but it works best when GitNexus and Graphify are available.
+
+Check GitNexus:
+
+```bash
+npx gitnexus --version
+npx gitnexus list
+```
+
+Index a repo with GitNexus:
+
+```bash
+cd /path/to/your/repo
+npx gitnexus analyze
+```
+
+Install Graphify:
+
+```bash
+uv tool install graphifyy
+graphify install --platform codex
+```
+
+Build a Graphify graph for a repo:
+
+```bash
+cd /path/to/your/repo
+graphify extract .
+```
+
+Refresh Graphify after code edits:
+
+```bash
+graphify update .
+```
+
+## Use
+
+In Codex, ask:
+
+```text
+Use $brain-combo to orient on this repo before changing the optimizer.
+```
+
+Or:
+
+```text
+Use $brain-combo to compare what GitNexus and Graphify know about this project.
+```
+
+The skill starts with:
+
+```bash
+bash ~/.codex/skills/brain-combo/scripts/check-codebase-memory.sh
+```
+
+Then it uses GitNexus, Graphify, and raw file reads according to the task.
+
+## Install With An AI Agent
+
+Give the agent this repository and this instruction:
+
+```text
+Install Brain Combo as a global Codex skill. Copy skill/brain-combo to ${CODEX_HOME:-$HOME/.codex}/skills/brain-combo, preserve executable permissions on scripts/check-codebase-memory.sh, validate SKILL.md if a Codex skill validator exists, and run the status script from a target repository. Report the installed path, GitNexus version, Graphify version, and whether graphify-out/ exists. Leave project source files unchanged unless I explicitly ask for code edits.
+```
+
+For a repo that already uses GitNexus or Graphify, add:
+
+```text
+After installing Brain Combo, read the target repo's AGENTS.md or equivalent project instructions, then use $brain-combo before making any code changes.
+```
+
+## Repository Layout
+
+```text
+brain-combo/
+├── README.md
+├── install.sh
+└── skill/
+    └── brain-combo/
+        ├── SKILL.md
+        ├── agents/openai.yaml
+        ├── references/graph-memory-workflow.md
+        └── scripts/check-codebase-memory.sh
+```
+
+## What Brain Combo Is Not
+
+Brain Combo is not a fork of GitNexus or Graphify. It is a small Codex skill that coordinates the two tools and gives future AI sessions a repeatable orientation workflow.

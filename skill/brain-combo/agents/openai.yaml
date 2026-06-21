@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brain Combo"
+  short_description: "Pair GitNexus with Graphify"
+  default_prompt: "Use $brain-combo to orient on this repo before changing the optimizer."
