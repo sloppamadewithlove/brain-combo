@@ -10,7 +10,10 @@ It keeps the two tools separate and lets them coexist:
 
 ## Why This Exists
 
-The base idea came from comparing an installed GitNexus workflow with `safishamsi/graphify`.
+The base idea came from comparing an installed GitNexus workflow with Graphify:
+
+- GitNexus source: https://github.com/abhigyanpatwari/GitNexus
+- Graphify source: https://github.com/safishamsi/graphify
 
 GitNexus was already useful for impact-aware coding inside a repo, but its value is strongest around source symbols and execution flows. Graphify overlaps as a graph-based project memory tool, but it reaches wider: reports, visual maps, docs, schemas, and non-code artifacts. Brain Combo exists because those strengths fit together better than they replace each other.
 
@@ -18,13 +21,12 @@ This repo packages that combined workflow as one Codex skill named `brain-combo`
 
 ## Version Baseline
 
-Brain Combo was created and verified with:
+Brain Combo was created from the two upstream projects above and re-verified on June 21, 2026 with:
 
-| Tool | Version used while creating Brain Combo | Notes |
+| Tool | Current verified version | Source |
 | --- | --- | --- |
-| GitNexus CLI | `1.5.3` | Local installed CLI used for behavior checks |
-| GitNexus npm latest | `1.6.8` | Registry version checked on June 21, 2026 |
-| Graphify CLI | `0.8.44` | Verified with `uvx --from graphifyy graphify --version` |
+| GitNexus CLI | `1.6.8` | https://github.com/abhigyanpatwari/GitNexus |
+| Graphify CLI | `0.8.44` | https://github.com/safishamsi/graphify |
 
 Use your installed local versions for day-to-day behavior. Treat the table as the creation baseline, not a permanent compatibility ceiling.
 
@@ -33,7 +35,7 @@ Use your installed local versions for day-to-day behavior. Treat the table as th
 ### Option 1: Automatic
 
 ```bash
-git clone <this-repo-url> brain-combo
+git clone https://github.com/sloppamadewithlove/brain-combo.git brain-combo
 cd brain-combo
 ./install.sh
 ```
@@ -49,7 +51,7 @@ Restart Codex after installing so the new global skill appears in future session
 ### Option 2: Manual
 
 ```bash
-git clone <this-repo-url> brain-combo
+git clone https://github.com/sloppamadewithlove/brain-combo.git brain-combo
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R brain-combo/skill/brain-combo "${CODEX_HOME:-$HOME/.codex}/skills/brain-combo"
 chmod +x "${CODEX_HOME:-$HOME/.codex}/skills/brain-combo/scripts/check-codebase-memory.sh"
@@ -68,21 +70,22 @@ Brain Combo can still help as instructions without both tools installed, but it 
 Check GitNexus:
 
 ```bash
-npx gitnexus --version
-npx gitnexus list
+gitnexus --version
+npx -y gitnexus@latest --version
+npx -y gitnexus@latest list
 ```
 
 Index a repo with GitNexus:
 
 ```bash
 cd /path/to/your/repo
-npx gitnexus analyze
+npx -y gitnexus@latest analyze
 ```
 
 Install Graphify:
 
 ```bash
-uv tool install graphifyy
+uv tool install --upgrade graphifyy
 graphify install --platform codex
 ```
 

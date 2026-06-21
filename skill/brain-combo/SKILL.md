@@ -27,7 +27,7 @@ Read `references/graph-memory-workflow.md` when the task needs a full workflow, 
 
 ## Version Baseline
 
-This skill was created from local testing with GitNexus CLI `1.5.3` and Graphify CLI `0.8.44`. Check installed versions at runtime because both tools can change independently.
+This skill coordinates GitNexus from https://github.com/abhigyanpatwari/GitNexus and Graphify from https://github.com/safishamsi/graphify. It was re-verified on June 21, 2026 with GitNexus CLI `1.6.8` and Graphify CLI `0.8.44`. Check installed versions at runtime because both tools can change independently.
 
 ## Tool Roles
 
@@ -71,9 +71,9 @@ Prefer the active repo at `/Users/slava/Downloads/vibework/refroute`. Use `.clau
 Because multiple GitNexus repos can be indexed on this machine, pass the repo name explicitly:
 
 ```bash
-npx gitnexus query -r refroute "optimizer"
-npx gitnexus context -r refroute optimizeForDate
-npx gitnexus impact -r refroute optimizeForDate
+npx -y gitnexus@latest query -r refroute "optimizer"
+npx -y gitnexus@latest context -r refroute optimizeForDate
+npx -y gitnexus@latest impact -r refroute optimizeForDate
 ```
 
 ## Decision Ladder

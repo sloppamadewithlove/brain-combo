@@ -11,50 +11,54 @@ bash ~/.codex/skills/brain-combo/scripts/check-codebase-memory.sh
 Use the output to decide which graph assets are available:
 
 - GitNexus available and indexed: use CLI commands or MCP tools when exposed.
-- GitNexus available and stale: refresh with `npx gitnexus analyze` from the repo root. Preserve embeddings with `--embeddings` when `.gitnexus/meta.json` reports a positive `stats.embeddings` count.
+- GitNexus available and stale: refresh with `npx -y gitnexus@latest analyze` from the repo root. Preserve embeddings with `--embeddings` when `.gitnexus/meta.json` reports a positive `stats.embeddings` count.
 - Graphify available and `graphify-out/` present: read/query the graph.
 - Graphify available and `graphify-out/` absent: build it when the user wants persistent second-brain memory.
 
 ## GitNexus Commands
 
+Source: https://github.com/abhigyanpatwari/GitNexus
+
 List indexed repos:
 
 ```bash
-npx gitnexus list
+npx -y gitnexus@latest list
 ```
 
 Check current repo status:
 
 ```bash
-npx gitnexus status
+npx -y gitnexus@latest status
 ```
 
 Query concepts:
 
 ```bash
-npx gitnexus query -r <repo-name> "auth flow"
+npx -y gitnexus@latest query -r <repo-name> "auth flow"
 ```
 
 Inspect one symbol:
 
 ```bash
-npx gitnexus context -r <repo-name> <symbol-name>
+npx -y gitnexus@latest context -r <repo-name> <symbol-name>
 ```
 
 Run blast-radius analysis before editing a symbol:
 
 ```bash
-npx gitnexus impact -r <repo-name> <symbol-name>
+npx -y gitnexus@latest impact -r <repo-name> <symbol-name>
 ```
 
 Use explicit `-r <repo-name>` when more than one repository is indexed.
 
 ## Graphify Commands
 
+Source: https://github.com/safishamsi/graphify
+
 Install the Graphify CLI:
 
 ```bash
-uv tool install graphifyy
+uv tool install --upgrade graphifyy
 graphify install --platform codex
 ```
 
@@ -149,7 +153,7 @@ Known GitNexus CLI issue on this machine: more than one repository is indexed, s
 Install Graphify when the user asks to add it:
 
 ```bash
-uv tool install graphifyy
+uv tool install --upgrade graphifyy
 graphify install --platform codex
 ```
 
@@ -164,12 +168,11 @@ Graphify `0.8.44` also supports `graphify global add`, `graphify global list`, `
 
 ## Version Baseline
 
-Brain Combo was created with these verified tools:
+Brain Combo was created from these upstream projects and re-verified on June 21, 2026:
 
 ```text
-GitNexus local CLI: 1.5.3
-GitNexus npm latest checked during creation: 1.6.8
-Graphify CLI via graphifyy: 0.8.44
+GitNexus: 1.6.8, https://github.com/abhigyanpatwari/GitNexus
+Graphify: 0.8.44, https://github.com/safishamsi/graphify
 ```
 
-Use the local CLI version for behavior decisions in a repo. Use the registry/latest versions only as upgrade context.
+Use the local CLI version for behavior decisions in a repo. Use the upstream repositories and registries as upgrade context.

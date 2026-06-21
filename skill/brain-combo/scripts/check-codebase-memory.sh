@@ -15,12 +15,16 @@ fi
 
 echo
 echo "== GitNexus =="
-if command -v npx >/dev/null 2>&1; then
-  npx gitnexus --version 2>/dev/null || echo "gitnexus CLI not available through npx"
-  npx gitnexus list 2>/dev/null || true
-  npx gitnexus status 2>/dev/null || true
+if command -v gitnexus >/dev/null 2>&1; then
+  gitnexus --version 2>/dev/null || echo "gitnexus CLI found but version failed"
+  gitnexus list 2>/dev/null || true
+  gitnexus status 2>/dev/null || true
+elif command -v npx >/dev/null 2>&1; then
+  npx -y gitnexus@latest --version 2>/dev/null || echo "gitnexus CLI not available through npx"
+  npx -y gitnexus@latest list 2>/dev/null || true
+  npx -y gitnexus@latest status 2>/dev/null || true
 else
-  echo "npx unavailable"
+  echo "gitnexus CLI not found"
 fi
 
 echo
