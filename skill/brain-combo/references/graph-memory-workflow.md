@@ -150,6 +150,13 @@ Known GitNexus CLI issue on this machine: more than one repository is indexed, s
 
 ## Setup Notes
 
+Install or upgrade GitNexus and its Codex skills:
+
+```bash
+npm install -g gitnexus@latest
+gitnexus setup --coding-agent codex
+```
+
 Install Graphify when the user asks to add it:
 
 ```bash
@@ -164,15 +171,15 @@ uv tool install "graphifyy[mcp]"
 python3 -m graphify.serve graphify-out/graph.json
 ```
 
-Graphify `0.8.44` also supports `graphify global add`, `graphify global list`, `graphify merge-graphs`, `graphify tree`, and `graphify export callflow-html` for larger second-brain workflows.
+Graphify `0.9.16` also supports `graphify global add`, `graphify global list`, `graphify merge-graphs`, `graphify tree`, and `graphify export callflow-html` for larger second-brain workflows.
 
 ## Version Baseline
 
-Brain Combo was created from these upstream projects and re-verified on June 21, 2026:
+Brain Combo was re-verified against these upstream projects on July 15, 2026:
 
 ```text
-GitNexus: 1.6.8, https://github.com/abhigyanpatwari/GitNexus
-Graphify: 0.8.44, https://github.com/safishamsi/graphify
+GitNexus: 1.6.9, https://github.com/abhigyanpatwari/GitNexus
+Graphify: 0.9.16, https://github.com/safishamsi/graphify
 ```
 
 Use the local CLI version for behavior decisions in a repo. Use the upstream repositories and registries as upgrade context.

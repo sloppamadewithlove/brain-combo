@@ -21,12 +21,12 @@ This repo packages that combined workflow as one Codex skill named `brain-combo`
 
 ## Version Baseline
 
-Brain Combo was created from the two upstream projects above and re-verified on June 21, 2026 with:
+Brain Combo was re-verified on July 15, 2026 with:
 
 | Tool | Current verified version | Source |
 | --- | --- | --- |
-| GitNexus CLI | `1.6.8` | https://github.com/abhigyanpatwari/GitNexus |
-| Graphify CLI | `0.8.44` | https://github.com/safishamsi/graphify |
+| GitNexus CLI | `1.6.9` | https://github.com/abhigyanpatwari/GitNexus |
+| Graphify CLI | `0.9.16` | https://github.com/safishamsi/graphify |
 
 Use your installed local versions for day-to-day behavior. Treat the table as the creation baseline, not a permanent compatibility ceiling.
 
@@ -45,6 +45,8 @@ The installer copies the skill to:
 ```text
 ${CODEX_HOME:-$HOME/.codex}/skills/brain-combo
 ```
+
+When replacing an existing installation, the installer preserves it under `${CODEX_HOME:-$HOME/.codex}/backups/brain-combo/`.
 
 Restart Codex after installing so the new global skill appears in future sessions.
 
@@ -73,6 +75,13 @@ Check GitNexus:
 gitnexus --version
 npx -y gitnexus@latest --version
 npx -y gitnexus@latest list
+```
+
+Install or upgrade GitNexus and its Codex skills:
+
+```bash
+npm install -g gitnexus@latest
+gitnexus setup --coding-agent codex
 ```
 
 Index a repo with GitNexus:

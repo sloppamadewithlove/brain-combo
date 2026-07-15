@@ -27,7 +27,7 @@ Read `references/graph-memory-workflow.md` when the task needs a full workflow, 
 
 ## Version Baseline
 
-This skill coordinates GitNexus from https://github.com/abhigyanpatwari/GitNexus and Graphify from https://github.com/safishamsi/graphify. It was re-verified on June 21, 2026 with GitNexus CLI `1.6.8` and Graphify CLI `0.8.44`. Check installed versions at runtime because both tools can change independently.
+This skill coordinates GitNexus from https://github.com/abhigyanpatwari/GitNexus and Graphify from https://github.com/safishamsi/graphify. It was re-verified on July 15, 2026 with GitNexus CLI `1.6.9` and Graphify CLI `0.9.16`. Check installed versions at runtime because both tools can change independently.
 
 ## Tool Roles
 
