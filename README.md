@@ -21,12 +21,14 @@ This repo packages that combined workflow as one Codex skill named `brain-combo`
 
 ## Version Baseline
 
-Brain Combo was re-verified on July 15, 2026 with:
+Brain Combo was re-verified on August 12, 2026 with:
 
 | Tool | Current verified version | Source |
 | --- | --- | --- |
 | GitNexus CLI | `1.6.9` | https://github.com/abhigyanpatwari/GitNexus |
-| Graphify CLI | `0.9.16` | https://github.com/safishamsi/graphify |
+| Graphify CLI | `0.9.31` | https://github.com/safishamsi/graphify |
+
+On August 12, 2026 the accompanying GitNexus skills (`gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-review`) and the Graphify skill were refreshed to their latest upstream versions alongside this skill.
 
 Use your installed local versions for day-to-day behavior. Treat the table as the creation baseline, not a permanent compatibility ceiling.
 

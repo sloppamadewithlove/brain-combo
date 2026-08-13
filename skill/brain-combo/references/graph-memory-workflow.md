@@ -171,15 +171,15 @@ uv tool install "graphifyy[mcp]"
 python3 -m graphify.serve graphify-out/graph.json
 ```
 
-Graphify `0.9.16` also supports `graphify global add`, `graphify global list`, `graphify merge-graphs`, `graphify tree`, and `graphify export callflow-html` for larger second-brain workflows.
+Graphify `0.9.31` also supports `graphify global add`, `graphify global list`, `graphify merge-graphs`, `graphify tree`, and `graphify export callflow-html` for larger second-brain workflows.
 
 ## Version Baseline
 
-Brain Combo was re-verified against these upstream projects on July 15, 2026:
+Brain Combo was re-verified against these upstream projects on August 12, 2026 (the GitNexus skills `gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-review` and the Graphify skill were updated to their latest upstream versions that same day):
 
 ```text
 GitNexus: 1.6.9, https://github.com/abhigyanpatwari/GitNexus
-Graphify: 0.9.16, https://github.com/safishamsi/graphify
+Graphify: 0.9.31, https://github.com/safishamsi/graphify
 ```
 
 Use the local CLI version for behavior decisions in a repo. Use the upstream repositories and registries as upgrade context.
