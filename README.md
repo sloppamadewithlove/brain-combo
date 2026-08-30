@@ -13,7 +13,7 @@ It keeps the two tools separate and lets them coexist:
 The base idea came from comparing an installed GitNexus workflow with Graphify:
 
 - GitNexus source: https://github.com/abhigyanpatwari/GitNexus
-- Graphify source: https://github.com/safishamsi/graphify
+- Graphify source: https://github.com/Graphify-Labs/graphify
 
 GitNexus was already useful for impact-aware coding inside a repo, but its value is strongest around source symbols and execution flows. Graphify overlaps as a graph-based project memory tool, but it reaches wider: reports, visual maps, docs, schemas, and non-code artifacts. Brain Combo exists because those strengths fit together better than they replace each other.
 
@@ -21,14 +21,14 @@ This repo packages that combined workflow as one Codex skill named `brain-combo`
 
 ## Version Baseline
 
-Brain Combo was re-verified on August 12, 2026 with:
+Brain Combo was re-verified on August 29, 2026 with:
 
 | Tool | Current verified version | Source |
 | --- | --- | --- |
-| GitNexus CLI | `1.6.9` | https://github.com/abhigyanpatwari/GitNexus |
-| Graphify CLI | `0.9.31` | https://github.com/safishamsi/graphify |
+| GitNexus CLI | `1.6.10` | https://github.com/abhigyanpatwari/GitNexus |
+| Graphify CLI | `0.9.52` | https://github.com/Graphify-Labs/graphify |
 
-On August 12, 2026 the accompanying GitNexus skills (`gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-review`) and the Graphify skill were refreshed to their latest upstream versions alongside this skill.
+On August 29, 2026 the accompanying GitNexus skills (`gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-debugging`, `gitnexus-exploring`, `gitnexus-taint-analysis`, `gitnexus-work`) and the Graphify skill were refreshed to their latest upstream versions alongside this skill.
 
 Use your installed local versions for day-to-day behavior. Treat the table as the creation baseline, not a permanent compatibility ceiling.
 

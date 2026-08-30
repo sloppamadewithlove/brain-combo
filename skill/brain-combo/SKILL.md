@@ -23,11 +23,45 @@ Run the bundled status check first when orienting in an unfamiliar repo:
 bash ~/.codex/skills/brain-combo/scripts/check-codebase-memory.sh
 ```
 
+Then keep the graphs current before trusting them. **If the status check reports the GitNexus index stale** (e.g. "Status: ⚠️ stale (re-run gitnexus analyze)" or the index commit is behind HEAD), refresh it once before querying so the second brain sees the code as it is now:
+
+```bash
+node .gitnexus/run.cjs analyze     # preferred when present (auto-selects runner)
+# fallback: npx -y gitnexus@latest analyze
+```
+
+Use Graphify output only when it is newer than the commits under analysis; regenerate it when it predates the code being questioned. This is the whole point: loaded skill → status check → refresh-if-stale → query. No external scheduler needed; the refresh happens automatically whenever the skill is used in a session, exactly like Codex.
+
 Read `references/graph-memory-workflow.md` when the task needs a full workflow, setup, refresh, packaging, or troubleshooting path.
 
 ## Version Baseline
 
-This skill coordinates GitNexus from https://github.com/abhigyanpatwari/GitNexus and Graphify from https://github.com/safishamsi/graphify. It was re-verified on August 12, 2026 with GitNexus CLI `1.6.9` and Graphify CLI `0.9.31`. The GitNexus skills (`gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-review`) and the Graphify skill were updated to their latest upstream versions on that date as well. Check installed versions at runtime because both tools can change independently.
+This skill coordinates GitNexus from https://github.com/abhigyanpatwari/GitNexus and Graphify from https://github.com/Graphify-Labs/graphify. It was re-verified on August 29, 2026 with GitNexus CLI `1.6.10` and Graphify CLI `0.9.52`. The GitNexus skills (`gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-debugging`, `gitnexus-exploring`, `gitnexus-taint-analysis`, `gitnexus-work`) and the Graphify skill were updated to their latest upstream versions on that date as well. Check installed versions at runtime because both tools can change independently.
+
+## Paid Cursor CLI Worker Route
+
+Slava has paid Cursor CLI access. When Slava asks Hermes to direct or orchestrate a Cursor agent for repository work, use the authenticated Cursor Agent CLI (`agent`, bills to the paid Cursor account at `api2.cursor.sh`) as the default execution route rather than a separate model API. Two confirmed worker models from this account: **Grok 4.6 Reasoning High** (default, quality-first) and **Composer 2.5** (with a Fast tier). Any agent may be asked for either:
+
+```bash
+agent status
+agent models | grep -iE 'grok|composer'     # confirm current model IDs at runtime
+# Grok 4.6 Reasoning High (default)
+agent -p --force --trust --model cursor-grok-4.6-high --workspace /absolute/repo/path '<bounded task prompt>'
+# Higher tier available if Slava asks for it: cursor-grok-4.6-xhigh (Extra High)
+# Composer 2.5 (alternative) / Composer 2.5 Fast
+agent -p --force --trust --model composer-2.5       --workspace /absolute/repo/path '<bounded task prompt>'
+agent -p --force --trust --model composer-2.5-fast  --workspace /absolute/repo/path '<bounded task prompt>'
+```
+
+- `-p/--print` = non-interactive output suitable for Hermes to capture. Add `--output-format json` (or `stream-json` for deltas) for structured, parseable results.
+- `--trust` skips the workspace-trust prompt so scripted runs start immediately.
+- `--force`/`--yolo` auto-approves all tool calls; `~/.cursor/cli-config.json` already allows `Shell(.)`, so agented builds proceed without approval stalls.
+- Verify the requested model (`cursor-grok-4.6-*`, `composer-2.5*`) is present in `agent models` at runtime; Cursor model IDs change independently of the family name.
+- Treat the route as model + Cursor provider endpoint + Cursor Agent harness + workspace permissions, not as raw model inference.
+- The paid Cursor account covers this route; do not silently switch to a separately billed API.
+- Keep Hermes as the supervisor: constrain file and side-effect scope, require observed diff/test evidence, and independently review and verify Cursor's changes.
+- If sandboxing fails in Hermes service contexts (macOS nesting limits), add `--sandbox disabled` and rely on git diff review + targeted tests as the safety layer.
+- Use a clean canonical checkout when project policy requires it. If the tree is dirty, preserve unrelated work with a reviewed worktree or the safe Git isolation workflow instead of letting the worker overwrite ambient changes.
 
 ## Tool Roles
 
@@ -47,6 +81,11 @@ Use raw files as the final authority:
 - Read the implementation before editing it.
 - Read current product memory files before applying older specs.
 - Treat graph output as navigation and risk discovery, then confirm exact behavior in source.
+
+GitNexus refresh safety:
+- Capture `git status --short` before and after `analyze`; some GitNexus versions append generated guidance to `AGENTS.md` and create `CLAUDE.md` even when only an index refresh was requested.
+- Treat those as tooling side effects unless the project explicitly wants them. Restore tracked context files to their pre-analysis content, and preserve any newly generated untracked file outside the checkout rather than deleting it when file preservation is required.
+- Verify the intended index commit with `node .gitnexus/run.cjs status` after handling side effects.
 
 ## RefRoute Defaults
 
@@ -80,13 +119,13 @@ npx -y gitnexus@latest impact -r refroute optimizeForDate
 
 For architecture or onboarding:
 1. Read project memory files.
-2. Run GitNexus `status` and `query`.
-3. Read Graphify report/query results if `graphify-out/` exists.
+2. Run GitNexus `status` and `query` (refresh the index first if `status` reports it stale — see Quick Start).
+3. Read Graphify report/query results if `graphify-out/` exists (regenerate if it predates recent commits).
 4. Open exact files that own the behavior.
 
 For code edits:
 1. Identify the symbol or route to change.
-2. Run GitNexus `context` and upstream `impact`.
+2. Ensure the index is current (refresh-if-stale per Quick Start), then run GitNexus `context` and upstream `impact`.
 3. Report the blast radius when risk is meaningful.
 4. Edit source after reading exact code.
 5. Run targeted tests/checks.

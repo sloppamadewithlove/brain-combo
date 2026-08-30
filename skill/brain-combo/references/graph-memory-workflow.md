@@ -53,13 +53,13 @@ Use explicit `-r <repo-name>` when more than one repository is indexed.
 
 ## Graphify Commands
 
-Source: https://github.com/safishamsi/graphify
+Source: https://github.com/Graphify-Labs/graphify
 
 Install the Graphify CLI:
 
 ```bash
 uv tool install --upgrade graphifyy
-graphify install --platform codex
+graphify install --platform hermes
 ```
 
 Build a graph:
@@ -98,6 +98,16 @@ python3 -m graphify.serve graphify-out/graph.json
 ```
 
 Graphify can also serve HTTP for a team-shared graph. Bind beyond localhost only with an API key.
+
+## Shared Codex/Hermes Tool Data
+
+Codex and Hermes intentionally share only the graph tooling and project graph data:
+
+- Both resolve the same installed `gitnexus` CLI and global registry at `~/.gitnexus/registry.json`.
+- Both resolve the same installed `graphify` CLI through the user tool path.
+- Both read and write repository-local `graphify-out/` assets (`graph.json`, `GRAPH_REPORT.md`, and `graph.html`).
+- Both Brain Combo status entry points delegate to `~/.config/brain-combo/check-codebase-memory.sh`.
+- Hermes and Codex memory databases remain separate and are never copied by this workflow.
 
 ## Coexistence Rules
 
@@ -161,7 +171,7 @@ Install Graphify when the user asks to add it:
 
 ```bash
 uv tool install --upgrade graphifyy
-graphify install --platform codex
+graphify install --platform hermes
 ```
 
 For MCP support:
@@ -171,15 +181,15 @@ uv tool install "graphifyy[mcp]"
 python3 -m graphify.serve graphify-out/graph.json
 ```
 
-Graphify `0.9.31` also supports `graphify global add`, `graphify global list`, `graphify merge-graphs`, `graphify tree`, and `graphify export callflow-html` for larger second-brain workflows.
+Graphify `0.9.52` also supports `graphify global add`, `graphify global list`, `graphify merge-graphs`, `graphify tree`, and `graphify export callflow-html` for larger second-brain workflows.
 
 ## Version Baseline
 
-Brain Combo was re-verified against these upstream projects on August 12, 2026 (the GitNexus skills `gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-review` and the Graphify skill were updated to their latest upstream versions that same day):
+Brain Combo was re-verified against these upstream projects on August 29, 2026 (the GitNexus skills `gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-debugging`, `gitnexus-exploring`, `gitnexus-taint-analysis`, `gitnexus-work` and the Graphify skill were updated to their latest upstream versions that same day):
 
 ```text
-GitNexus: 1.6.9, https://github.com/abhigyanpatwari/GitNexus
-Graphify: 0.9.31, https://github.com/safishamsi/graphify
+GitNexus: 1.6.10, https://github.com/abhigyanpatwari/GitNexus
+Graphify: 0.9.52, https://github.com/Graphify-Labs/graphify
 ```
 
 Use the local CLI version for behavior decisions in a repo. Use the upstream repositories and registries as upgrade context.
