@@ -23,20 +23,20 @@ Run the bundled status check first when orienting in an unfamiliar repo:
 bash ~/.codex/skills/brain-combo/scripts/check-codebase-memory.sh
 ```
 
-Then keep the graphs current before trusting them. **If the status check reports the GitNexus index stale** (e.g. "Status: ⚠️ stale (re-run gitnexus analyze)" or the index commit is behind HEAD), refresh it once before querying so the second brain sees the code as it is now:
+Then keep the graphs current before trusting them. Check the repository alias and index identity before querying. Refresh once when GitNexus reports `staleness.status` as `behind` or `diverged`, or its status command proves the index differs from the target checkout's HEAD. `current` describes that indexed checkout, not the remote default branch; `unknown` means freshness could not be measured and does not justify repeatedly rebuilding:
 
 ```bash
-node .gitnexus/run.cjs analyze     # preferred when present (auto-selects runner)
-# fallback: npx -y gitnexus@latest analyze
+node .gitnexus/run.cjs analyze --index-only
+# fallback: gitnexus analyze --index-only
 ```
 
-Use Graphify output only when it is newer than the commits under analysis; regenerate it when it predates the code being questioned. This is the whole point: loaded skill → status check → refresh-if-stale → query. No external scheduler needed; the refresh happens automatically whenever the skill is used in a session, exactly like Codex.
+Verify that Graphify output covers the source tree being questioned, including uncommitted changes; timestamps alone do not prove coverage. Refresh code extraction when its inputs changed. A semantic rebuild of documents or media can require model calls, so follow the task's existing authorization before starting it. If this directory is not a Git repository, report that GitNexus freshness cannot be measured here and use available Graphify assets or raw files.
 
 Read `references/graph-memory-workflow.md` when the task needs a full workflow, setup, refresh, packaging, or troubleshooting path.
 
 ## Version Baseline
 
-This skill coordinates GitNexus from https://github.com/abhigyanpatwari/GitNexus and Graphify from https://github.com/Graphify-Labs/graphify. It was re-verified on August 29, 2026 with GitNexus CLI `1.6.10` and Graphify CLI `0.9.52`. The GitNexus skills (`gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-debugging`, `gitnexus-exploring`, `gitnexus-taint-analysis`, `gitnexus-work`) and the Graphify skill were updated to their latest upstream versions on that date as well. Check installed versions at runtime because both tools can change independently.
+This skill coordinates GitNexus from https://github.com/abhigyanpatwari/GitNexus and Graphify from https://github.com/Graphify-Labs/graphify. It was re-verified on October 2, 2026 with GitNexus CLI `1.6.12` and Graphify CLI `0.9.74`. GitNexus companion skills and the platform-specific Graphify bundles were refreshed against their upstream sources. Check installed versions at runtime because both tools can change independently. Use the installed CLI for normal queries; package upgrades and skill installation belong to an explicitly requested setup/update task.
 
 ## Paid Cursor CLI Worker Route
 
@@ -83,6 +83,8 @@ Use raw files as the final authority:
 - Treat graph output as navigation and risk discovery, then confirm exact behavior in source.
 
 GitNexus refresh safety:
+- Prefer `analyze --index-only` for an index refresh; it suppresses context-file and skill injection. Existing embeddings are retained unless `--drop-embeddings` is explicitly requested.
+- Respect `GITNEXUS_STORAGE_PATH` and `GITNEXUS_STORAGE_ROOT`; an index can live outside the checkout. Check `storagePath`, `contentRetention`, and `sourceAvailable` before assuming graph responses include complete source text.
 - Capture `git status --short` before and after `analyze`; some GitNexus versions append generated guidance to `AGENTS.md` and create `CLAUDE.md` even when only an index refresh was requested.
 - Treat those as tooling side effects unless the project explicitly wants them. Restore tracked context files to their pre-analysis content, and preserve any newly generated untracked file outside the checkout rather than deleting it when file preservation is required.
 - Verify the intended index commit with `node .gitnexus/run.cjs status` after handling side effects.
@@ -110,9 +112,9 @@ Prefer the active repo at `/Users/slava/Downloads/vibework/refroute`. Use `.clau
 Because multiple GitNexus repos can be indexed on this machine, pass the repo name explicitly:
 
 ```bash
-npx -y gitnexus@latest query -r refroute "optimizer"
-npx -y gitnexus@latest context -r refroute optimizeForDate
-npx -y gitnexus@latest impact -r refroute optimizeForDate
+gitnexus query -r refroute "optimizer"
+gitnexus context -r refroute optimizeForDate
+gitnexus impact -r refroute optimizeForDate
 ```
 
 ## Decision Ladder
@@ -120,7 +122,7 @@ npx -y gitnexus@latest impact -r refroute optimizeForDate
 For architecture or onboarding:
 1. Read project memory files.
 2. Run GitNexus `status` and `query` (refresh the index first if `status` reports it stale — see Quick Start).
-3. Read Graphify report/query results if `graphify-out/` exists (regenerate if it predates recent commits).
+3. Read Graphify report/query results if `graphify-out/` exists; verify input coverage before refreshing it under the current task authorization.
 4. Open exact files that own the behavior.
 
 For code edits:

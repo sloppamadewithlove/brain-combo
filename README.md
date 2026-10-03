@@ -21,16 +21,16 @@ This repo packages that combined workflow as one Codex skill named `brain-combo`
 
 ## Version Baseline
 
-Brain Combo was re-verified on August 29, 2026 with:
+Brain Combo was re-verified on October 2, 2026 with:
 
 | Tool | Current verified version | Source |
 | --- | --- | --- |
-| GitNexus CLI | `1.6.10` | https://github.com/abhigyanpatwari/GitNexus |
-| Graphify CLI | `0.9.52` | https://github.com/Graphify-Labs/graphify |
+| GitNexus CLI | `1.6.12` | https://github.com/abhigyanpatwari/GitNexus |
+| Graphify CLI | `0.9.74` | https://github.com/Graphify-Labs/graphify |
 
-On August 29, 2026 the accompanying GitNexus skills (`gitnexus-impact-analysis`, `gitnexus-refactoring`, `gitnexus-debugging`, `gitnexus-exploring`, `gitnexus-taint-analysis`, `gitnexus-work`) and the Graphify skill were refreshed to their latest upstream versions alongside this skill.
+The GitNexus companion skills and Codex/Hermes Graphify bundles were refreshed against their upstream sources on October 2, 2026.
 
-Use your installed local versions for day-to-day behavior. Treat the table as the creation baseline, not a permanent compatibility ceiling.
+Use your installed local versions for day-to-day behavior. Treat the table as the verified baseline, not a permanent compatibility ceiling.
 
 ## Install For Codex
 
@@ -75,8 +75,7 @@ Check GitNexus:
 
 ```bash
 gitnexus --version
-npx -y gitnexus@latest --version
-npx -y gitnexus@latest list
+gitnexus list
 ```
 
 Install or upgrade GitNexus and its Codex skills:
@@ -90,7 +89,7 @@ Index a repo with GitNexus:
 
 ```bash
 cd /path/to/your/repo
-npx -y gitnexus@latest analyze
+gitnexus analyze --index-only
 ```
 
 Install Graphify:
@@ -111,6 +110,15 @@ Refresh Graphify after code edits:
 
 ```bash
 graphify update .
+```
+
+GitNexus refreshes retain embeddings by default. Confirm the repository alias and indexed commit before refreshing; unknown freshness is unmeasurable, not automatically stale. Check Graphify source/input coverage, including dirty files; timestamps alone do not prove freshness. Semantic document/media rebuilds may require model calls and task authorization.
+
+For optional Graphify MCP support:
+
+```bash
+uv tool install --upgrade "graphifyy[mcp]"
+graphify-mcp graphify-out/graph.json
 ```
 
 ## Use
